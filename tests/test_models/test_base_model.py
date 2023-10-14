@@ -5,7 +5,7 @@
 
 import unittest
 from datetime import datetime
-from models import BaseModel
+from .models.base_model import BaseModel
 import models
 
 

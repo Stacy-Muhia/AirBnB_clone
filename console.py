@@ -17,14 +17,14 @@ class HBNBCommand(cmd.Cmd):
         """Creates a new instance of BaseModel"""
         args = shlex.split(line)
         if not args:
-            print("** class name missing **")    
+            print("** class name missing **")
         elif args[0] != "BaseModel":
             print("** class doesn't exist **")
         else:
             new_instance = BaseModel()
             new_instance.save()
             print(new_instance.id)
-    
+
     def emptyline(self):
         pass
 
