@@ -48,6 +48,34 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
+    def do_destroy(self, line):
+        """Deletes an instance based on the class name and id"""
+        args = shlex.split(line)
+        if not args:
+            print("** class name missing **")
+        elif args[0] not in BaseModel.__subclasses__():
+            print("** class doesn't exist **")
+        elif len(args) < 2:
+            print("** instance id missing **")
+        else:
+            obj_id = args[1]
+            obj = storage.get(args[0], obj_id)
+            if obj:
+                obj.delete()
+                storage.save()
+            else:
+                print("** no instance found **")
+
+    def do_all(self, line):
+        """Prints all string representations of instances
+        based on the class name"""
+        args = shlex.split(line)
+        if not args:
+            objs = storage.all()
+            print([str(obj) for obj in objs.values()])
+        elif args[0] not in BaseModel.__subclasses__():
+            print("** class doesn't exist **")
+
     def do_quit(self, args):
         """Quit command to exit the program"""
         return True
