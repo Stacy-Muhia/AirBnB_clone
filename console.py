@@ -28,9 +28,9 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         pass
 
-
     def do_show(self, line):
-        """ Prints the string representation of an instance based on the class name"""
+        """ Prints the string representation of an instance
+        based on the class name"""
 
         args = shlex.split(line)
         if not args:
@@ -46,7 +46,7 @@ class HBNBCommand(cmd.Cmd):
             if key in all_objs:
                 print(all_objs[key])
             else:
-                 print("** no instance found **")
+                print("** no instance found **")
 
     def do_quit(self, args):
         """Quit command to exit the program"""
@@ -55,6 +55,7 @@ class HBNBCommand(cmd.Cmd):
     def do_EOF(self, args):
         """Also exits the program"""
         return True
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
