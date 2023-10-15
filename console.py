@@ -8,6 +8,7 @@ import cmd
 import json
 from models.base_model import BaseModel
 import shlex
+from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -75,6 +76,39 @@ class HBNBCommand(cmd.Cmd):
             print([str(obj) for obj in objs.values()])
         elif args[0] not in BaseModel.__subclasses__():
             print("** class doesn't exist **")
+        else:
+            objs = storage.all(args[0])
+            print([str(obj) for obj in objs.values()])
+
+    def do_update(self, line):
+        """Updates an instance based on the class name and id
+        by adding or updating attribute"""
+        args = shlex.split(line)
+        if not args:
+            print("** class name missing **")
+        elif args[0] not in BaseModel.__subclasses__():
+            print("** class doesn't exist **")
+        elif len(args) < 2:
+            print("** instance id missing **")
+        else:
+            obj_id = args[1]
+            obj = storage.get(args[0], obj_id)
+            if not obj:
+                print("** no instance found **")
+            elif len(args) < 3:
+                print("** attribute name missing **")
+            elif len(args) < 4:
+                print("** value missing **")
+            else:
+                attr_name = args[2]
+                attr_value = args[3]
+                if hasattr(obj, attr_name):
+                    try:
+                        attr_value = eval(attr_value)
+                    except (NameError, SyntaxError):
+                        pass
+                    setattr(obj, attr_name, attr_value)
+                    obj.save()
 
     def do_quit(self, args):
         """Quit command to exit the program"""
