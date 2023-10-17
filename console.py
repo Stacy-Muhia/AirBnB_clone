@@ -9,10 +9,25 @@ import json
 from models.base_model import BaseModel
 import shlex
 from models import storage
+from models.user import User
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.amenity import Amenity
+from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
+    __classes = {
+            "BaseModel",
+            "User",
+            "State",
+            "City",
+            "Place",
+            "Amenity",
+            "Review"
+        }
 
     def do_create(self, line):
         """Creates a new instance of BaseModel"""
@@ -42,7 +57,7 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
         else:
             obj_id = args[1]
-            all_objs = BaseModel.all()
+            all_objs = storage.all()
             key = "{}.{}".format("BaseModel", obj_id)
             if key in all_objs:
                 print(all_objs[key])
@@ -74,7 +89,7 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             objs = storage.all()
             print([str(obj) for obj in objs.values()])
-        elif args[0] not in BaseModel.__subclasses__():
+        elif args[0] not in storage.all():
             print("** class doesn't exist **")
         else:
             objs = storage.all(args[0])

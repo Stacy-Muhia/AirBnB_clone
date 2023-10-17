@@ -49,7 +49,7 @@ class FileStorage:
             json_objects = {}
             for key, value in FileStorage.__objects.items():
                 json_objects[key] = value.to_dict()
-            i = json.dumps(json_objects)
+            j = json.dumps(json_objects)
             file.write(j)
 
     def reload(self):
